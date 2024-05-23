@@ -3,6 +3,7 @@ package com.atguigu.gulimail.member.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.atguigu.gulimail.member.feign.CouponFeignService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,6 +30,18 @@ import com.atguigu.common.utils.R;
 public class MemberController {
     @Autowired
     private MemberService memberService;
+
+    @Autowired
+    private CouponFeignService couponFeignService;
+
+    @RequestMapping("/test")
+    public R getCoupon() {
+        MemberEntity member = new MemberEntity();
+        member.setNickname("zhangsan");
+        member.setCity("shanghai");
+        R coupon = couponFeignService.getCoupon();
+        return R.ok().put("member", member).put("coupon", coupon.get("coupon"));
+    }
 
     /**
      * 列表
